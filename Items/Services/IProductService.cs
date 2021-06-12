@@ -8,11 +8,11 @@ namespace WebApplication.Services
 {
     public  interface IProductService
     {
-        Task<Item> CreateItem(Item item);
-        Task DeleteItem(Item item);
-        Task<Item> GetItem(int id);
-        Task<List<Item>> GetItems();
-        Task<List<Item>> SearchItems(string term);
-        Task UpdateItem(Item item);
+        Task<Announcement> CreateItem(Announcement item);
+        Task DeleteItem(Announcement item);
+        Task<Announcement> GetItem(int id);
+        Task<List<Announcement>> GetItems();
+        Task<List<Announcement>> SearchItems(string term);
+        Task UpdateItem(Announcement item);
     }
 }

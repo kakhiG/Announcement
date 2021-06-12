@@ -12,25 +12,25 @@ namespace WebApplication.Controller
 	[Route("api/[controller]")]
 	[ApiController]
 	[ApiConventionType(typeof(DefaultApiConventions))]
-	public class ItemController : ControllerBase
+	public class AnnouncementsController : ControllerBase
 	{
 		private readonly IProductService _service;
 
-		public ItemController(IProductService service)
+		public AnnouncementsController(IProductService service)
 		{
 			this._service = service;
 		}
 
 		// GET: api/<controller>
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Item>>> Get()
+		public async Task<ActionResult<IEnumerable<Announcement>>> Get()
 		{
 			return await this._service.GetItems();
 		}
 
 		// GET: api/<controller>/search/{title}
 		[HttpGet("search/{term?}")]
-		public async Task<ActionResult<IEnumerable<Item>>> SearchMovies(string term)
+		public async Task<ActionResult<IEnumerable<Announcement>>> SearchItems(string term)
 		{
 			return await this._service.SearchItems(term);
 		}
@@ -38,7 +38,7 @@ namespace WebApplication.Controller
 
 		// GET api/<controller>/5
 		[HttpGet("{id}", Name = "GetItem")]
-		public async Task<ActionResult<Item>> Get(int id)
+		public async Task<ActionResult<Announcement>> Get(int id)
 		{
 			var item = await this._service.GetItem(id);
 
@@ -52,7 +52,7 @@ namespace WebApplication.Controller
 
 		// POST api/<controller>
 		[HttpPost]
-		public async Task<ActionResult<Item>> Post(Item item)
+		public async Task<ActionResult<Announcement>> Post(Announcement item)
 		{
 			await this._service.CreateItem(item);
 			return CreatedAtRoute("GetItem", new { id = item.Id }, item);
@@ -76,7 +76,7 @@ namespace WebApplication.Controller
 
 		// PUT api/<controller>/{id}
 		[HttpPut("{id}")]
-		public async Task<ActionResult> Put(int id, Item item)
+		public async Task<ActionResult> Put(int id, Announcement item)
 		{
 			if (id != item.Id)
 			{

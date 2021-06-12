@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Models
 {
-    public class Item
+    public class Announcement
     {
         public int Id { get; set; }
 

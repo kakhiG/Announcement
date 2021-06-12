@@ -10,45 +10,45 @@ namespace WebApplication.Services
 
     public class ProductService : IProductService
     {
-        private readonly ItemFeedContext _context;
+        private readonly DataContext _context;
 
-        public ProductService(ItemFeedContext context)
+        public ProductService(DataContext context)
         {
             this._context = context;
         }
 
-        public async Task<List<Item>> GetItems() => await this._context.Items.ToListAsync();
+        public async Task<List<Announcement>> GetItems() => await this._context.Announcements.ToListAsync();
 
-        public async Task<Item> GetItem(int id) => await this._context.Items.Where(m => m.Id == id).FirstOrDefaultAsync();
+        public async Task<Announcement> GetItem(int id) => await this._context.Announcements.Where(m => m.Id == id).FirstOrDefaultAsync();
 
-        public async Task<Item> CreateItem(Item item)
+        public async Task<Announcement> CreateItem(Announcement item)
         {
-            await this._context.Items.AddAsync(item);
+            await this._context.Announcements.AddAsync(item);
             await this._context.SaveChangesAsync();
 
             return item;
         }
 
-        public async Task DeleteItem(Item item)
+        public async Task DeleteItem(Announcement item)
         {
-            this._context.Items.Remove(item);
+            this._context.Announcements.Remove(item);
             await this._context.SaveChangesAsync();
         }
 
-        public async Task<List<Item>> SearchItems(string term)
+        public async Task<List<Announcement>> SearchItems(string term)
         {
-            var query = this._context.Items.AsQueryable();
+            var query = this._context.Announcements.AsQueryable();
 
             if (!string.IsNullOrEmpty(term))
             {
                 var cleanTerm = term.ToLowerInvariant().Trim();
-                query = query.Where(m => m.Title.ToLowerInvariant().Contains(cleanTerm) || (m.Description != null && m.Description.ToLowerInvariant().Contains(cleanTerm)));
+                query = query.Where(m => m.Title.ToLower().Contains(cleanTerm) || (m.Description != null && m.Description.ToLower().Contains(cleanTerm)));
             }
 
             return await query.ToListAsync();
         }
 
-        public async Task UpdateItem(Item item)
+        public async Task UpdateItem(Announcement item)
         {
             this._context.Entry(item).State = EntityState.Modified;
             await _context.SaveChangesAsync();

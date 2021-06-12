@@ -18,6 +18,8 @@ namespace Items
 {
     public class Startup
     {
+        private const string CorsAllowSpecificOrigins = "_corsAllowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -27,8 +29,28 @@ namespace Items
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ItemFeedContext>(options => options.UseSqlite(Configuration.GetConnectionString("LocalDb")));
+            services
+                .AddDbContext<DataContext>(options => 
+                    options
+                    .UseNpgsql(Configuration.GetConnectionString("MainDbConnStr"))
+            );
             services.AddScoped<IProductService, ProductService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: CorsAllowSpecificOrigins, builder =>
+                {
+                    builder
+                       .WithOrigins(
+                             "https://facebook.com"
+                           , "https://www.facebook.com"
+                           )
+                       .AllowCredentials()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       ;
+                });
+            });
 
             services.AddControllers();
 
