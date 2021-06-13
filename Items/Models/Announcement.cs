@@ -13,8 +13,9 @@ namespace WebApplication.Models
 
         public string Description { get; set; }
 
-   
         public string MobileNumber { get; set; }
+
+        public byte[] ImageData { get; set; }
 
     }
 }
